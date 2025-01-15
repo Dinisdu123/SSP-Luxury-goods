@@ -30,7 +30,7 @@
               class="w-6 h-6 ml-20 hover:opacity-75"
             />
           </a>
-          <a href="#">
+          <a href="myprofile.php">
             <img
               src="images/profile icon.png"
               alt="Profile Icon"

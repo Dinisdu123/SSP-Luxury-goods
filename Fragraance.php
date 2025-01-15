@@ -34,7 +34,7 @@ $ladies = $conn->query($sql_ladies);
                 <a href="">
                     <img src="images/cart.png" alt="" class="w-6 h-6 ml-20 hover:opacity-75">
                 </a>
-                <a href="">
+                <a href="signin.php">
                     <img src="images/profile icon.png" alt="" class="w-6 h-6 hover:opacity-75">
                 </a>
             </div>

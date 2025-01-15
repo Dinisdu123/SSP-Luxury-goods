@@ -44,7 +44,7 @@ $wallets = $conn->query($sql_wallets);
               class="w-6 h-6 ml-20 hover:opacity-75"
             />
           </a>
-          <a href="#">
+          <a href="signin.php">
             <img
               src="images/profile icon.png"
               alt="Profile Icon"
