@@ -65,7 +65,8 @@ $ladies = $conn->query($sql_ladies);
                 <?php
                 if ($mens->num_rows > 0) {
                     while ($row = $mens->fetch_assoc()) {
-                        echo "<a href='products.php' class='block'>";
+                        echo "<a href='product.php?name=" . urlencode($row['Name']) . "' class='block'>";
+
                         echo "<div class='bg-white p-4 text-center flex flex-col items-center'>";
                         echo "<img src='" . $row['ImageUrl'] . "' alt='" . $row['Name'] . "' class='h-40 w-40 object-cover mb-4 rounded'>";
                         echo "<p class='text-gray-600 text-center'>LKR " . $row['Price'] . "</p>";
@@ -84,7 +85,7 @@ $ladies = $conn->query($sql_ladies);
                 <?php
                 if ($ladies->num_rows > 0) {
                     while ($row = $ladies->fetch_assoc()) {
-                        echo "<a href='products.php' class='block'>";
+                        echo "<a href='product.php?name=" . urlencode($row['Name']) . "' class='block'>";
                         echo "<div class='bg-white p-4 text-center flex flex-col items-center'>";
                         echo "<img src='" . $row['ImageUrl'] . "' alt='" . $row['Name'] . "' class='h-40 w-40 object-cover mb-4 rounded'>";
                         echo "<p class='text-gray-600 text-center'>LKR " . $row['Price'] . "</p>";
@@ -107,7 +108,7 @@ $ladies = $conn->query($sql_ladies);
                     <li class="mb-2"><a href="index.php" class="hover:underline">Home</a></li>
                     <li class="mb-2"><a href="#" class="hover:underline">New arrivals</a></li>
                     <li class="mb-2"><a href="#" class="hover:underline">Shop</a></li>
-                    <li><a href="#" class="hover:underline">About us</a></li>
+                    <li><a href="aboutus.html" class="hover:underline">About us</a></li>
                 </ul>
             </div>
 

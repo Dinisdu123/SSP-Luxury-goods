@@ -38,7 +38,7 @@ $email = $_SESSION['email'];
                     <a href="fragrances.php" class="hover:text-gray-400">Fragrances</a>
                     <a href="accessories.php" class="hover:text-gray-400">Accessories</a>
                     <a href="myprofile.php" class="hover:text-gray-400">
-                        <img src="profile_icon.png" alt="Profile" class="h-8 w-8 rounded-full">
+                        <img src="images/profile icon.png" alt="Profile" class="h-8 w-8 rounded-full">
                     </a>
                 </nav>
             </div>
@@ -51,7 +51,7 @@ $email = $_SESSION['email'];
             <div class="flex items-center space-x-6">
                 <!-- Profile Image -->
                 <div>
-                    <img src="user_placeholder.png" alt="Profile" class="h-20 w-20 rounded-full border">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="Profile" class="h-20 w-20 rounded-full border">
                 </div>
                 <!-- User Info -->
                 <div>

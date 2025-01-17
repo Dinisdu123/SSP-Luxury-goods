@@ -89,7 +89,7 @@
                     <li class="mb-2"><a href="index.php" class="hover:underline">Home</a></li>
                     <li class="mb-2"><a href="#" class="hover:underline">New arrivals</a></li>
                     <li class="mb-2"><a href="#" class="hover:underline">Shop</a></li>
-                    <li><a href="#" class="hover:underline">About us</a></li>
+                    <li><a href="aboutus.html" class="hover:underline">About us</a></li>
                 </ul>
             </div>
 

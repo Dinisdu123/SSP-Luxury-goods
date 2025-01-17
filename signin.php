@@ -9,23 +9,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Prepare the SQL queries to check in Admins and Customers tables
+    // Query to check in Admins table
+    $adminQuery = $conn->prepare("SELECT * FROM Admins WHERE Email = ? AND Password = ?");
+    $adminQuery->bind_param("ss", $email, $password);
+    $adminQuery->execute();
+    $adminResult = $adminQuery->get_result();
+
+    // Query to check in Customers table
     $customerQuery = $conn->prepare("SELECT * FROM Customers WHERE Email = ? AND Password = ?");
     $customerQuery->bind_param("ss", $email, $password);
     $customerQuery->execute();
     $customerResult = $customerQuery->get_result();
 
-    // Check if the user exists as a customer
-    if ($customerResult->num_rows > 0) {
-        $userData = $customerResult->fetch_assoc();
+    // Check if the user exists as an admin
+    if ($adminResult->num_rows > 0) {
+        $adminData = $adminResult->fetch_assoc();
         
-        // Store user details in session
-        $_SESSION['user_id'] = $userData['CustomerId'];
-        $_SESSION['first_name'] = $userData['FirstName'];
-        $_SESSION['last_name'] = $userData['LastName'];
-        $_SESSION['email'] = $userData['Email'];
+        // Store admin details in session
+        $_SESSION['user_id'] = $adminData['AdminId'];
+        $_SESSION['name'] = $adminData['Name'];
+        $_SESSION['email'] = $adminData['Email'];
+        $_SESSION['role'] = 'admin';
 
-        // Redirect to the index.php page
+        // Redirect to admin.php
+        header("Location: admin.php");
+        exit();
+    }
+    // Check if the user exists as a customer
+    elseif ($customerResult->num_rows > 0) {
+        $customerData = $customerResult->fetch_assoc();
+        
+        // Store customer details in session
+        $_SESSION['user_id'] = $customerData['CustomerId'];
+        $_SESSION['first_name'] = $customerData['FirstName'];
+        $_SESSION['last_name'] = $customerData['LastName'];
+        $_SESSION['email'] = $customerData['Email'];
+        $_SESSION['role'] = 'customer';
+
+        // Redirect to index.php
         header("Location: index.php");
         exit();
     } else {
@@ -33,10 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>alert('Invalid email or password!'); window.location.href = 'signin.php';</script>";
     }
 
+    // Close connections
+    $adminQuery->close();
     $customerQuery->close();
     $conn->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
