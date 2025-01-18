@@ -33,19 +33,18 @@ $wallets = $conn->query($sql_wallets);
     <!-- Navigation Bar -->
     <nav class="flex items-center justify-between p-4 border-b border-black">
         <div class="flex space-x-8">
-            <a href="#shoulder-bags" class="hover:text-gray-500">Shoulder Bags</a>
-            <a href="#mini-bags" class="hover:text-gray-500">Mini Bags</a>
-            <a href="#backpacks" class="hover:text-gray-500">Backpacks</a>
-            <a href="#wallets" class="hover:text-gray-500">Wallets</a>
-        </div>
-        <div class="flex items-center space-x-6">
-            <span class="text-4xl font-serif">Aurora Luxe</span>
+            <a href="leathergoods.php" class="hover:text-gray-500">Leather Goods</a>
+            <a href="Fragraance.php" class="hover:text-gray-500">Fragrances</a>
+            <a href="accesories.php" class="hover:text-gray-500">Accessories</a>
+        </div>  
+        <div class= "flex items-center space-x-6">
+            <span class="text-4xl font-serif">Aurora luxe</span>
             <div class="flex space-x-4 items-center">
-                <a href="#">
-                    <img src="images/cart.png" alt="cart Icon" class="w-6 h-6 ml-20 hover:opacity-75" />
+                <a href="">
+                    <img src="images/cart.png" alt="" class="w-6 h-6 ml-20 hover:opacity-75">
                 </a>
                 <a href="signin.php">
-                    <img src="images/profile icon.png" alt="Profile Icon" class="w-8 h-8 hover:opacity-85" />
+                    <img src="images/profile icon.png" alt="" class="w-6 h-6 hover:opacity-75">
                 </a>
             </div>
         </div>

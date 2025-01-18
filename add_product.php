@@ -46,40 +46,40 @@ $conn->close();
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                 <input type="text" id="name" name="name" required
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full  border-gray-300 shadow-sm ">
             </div>
             <div class="mb-4">
                 <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                 <textarea id="description" name="description" rows="3"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
             </div>
             <div class="mb-4">
                 <label for="imageUrl" class="block text-sm font-medium text-gray-700">Image URL</label>
                 <input type="url" id="imageUrl" name="imageUrl"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
             </div>
             <div class="mb-4">
                 <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
                 <input type="number" step="0.01" id="price" name="price" required
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm ">
             </div>
             <div class="mb-4">
                 <label for="stockQuantity" class="block text-sm font-medium text-gray-700">Stock Quantity</label>
                 <input type="number" id="stockQuantity" name="stockQuantity" required
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
             </div>
             <div class="mb-4">
                 <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                 <input type="text" id="category" name="category"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm ">
             </div>
             <div class="mb-4">
                 <label for="subCategory" class="block text-sm font-medium text-gray-700">Sub-Category</label>
                 <input type="text" id="subCategory" name="subCategory"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
             </div>
             <button type="submit"
-                class="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600">Add Product</button>
+                class="w-full bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600">Add Product</button>
         </form>
     </div>
 </body>

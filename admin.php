@@ -14,8 +14,8 @@ if (isset($_GET['delete_id'])) {
 }
 
 // Fetch products
-$sql = "SELECT * FROM products";
-$result = $conn->query($sql);
+$product = "SELECT * FROM products";
+$allProduct = $conn->query($product);
 ?>
 
 <!DOCTYPE html>
@@ -43,12 +43,13 @@ $result = $conn->query($sql);
     <div class="container mx-auto my-8">
         <div class="grid grid-cols-4 gap-4">
             <?php
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
+            if ($allProduct->num_rows > 0) {
+                while ($row = $allProduct->fetch_assoc()) {
                     echo '<div class="bg-white shadow p-4 rounded">';
                     echo '<img src="' . $row['ImageUrl'] . '" alt="Product" class="h-40 w-full object-cover mb-4">';
                     echo '<div class="text-center font-bold mb-2">' . $row['Name'] . '</div>';
                     echo '<div class="flex justify-between items-center">';
+                    // Fixed Update button
                     echo '<a href="update.php?id=' . $row['ProductId'] . '" class="bg-blue-500 text-white px-3 py-1 rounded">Update</a>';
                     echo '<a href="admin.php?delete_id=' . $row['ProductId'] . '" class="bg-red-500 text-white px-3 py-1 rounded" onclick="return confirm(\'Are you sure you want to delete this product?\')">Remove</a>';
                     echo '</div>';
@@ -62,46 +63,48 @@ $result = $conn->query($sql);
     </div>
 
     <footer class="bg-gray-200 text-center lg:text-left h-[260px] mb-0">
-    <div class="max-w-7xl mx-auto py-10">
-        <div class="flex flex-col sm:flex-row justify-between text-sm text-gray-800">
-            <!-- Quick Links -->
-            <div class="sm:text-left flex-1">
-                <h6 class="font-bold mb-4">Quick links</h6>
-                <ul>
-                    <li class="mb-2"><a href="index.php" class="hover:underline">Home</a></li>
-                    <li class="mb-2"><a href="#" class="hover:underline">New arrivals</a></li>
-                    <li class="mb-2"><a href="#" class="hover:underline">Shop</a></li>
-                    <li><a href="aboutus.html" class="hover:underline">About us</a></li>
-                </ul>
-            </div>
+        <div class="max-w-7xl mx-auto py-10">
+            <div class="flex flex-col sm:flex-row justify-between text-sm text-gray-800">
+                <!-- Quick Links -->
+                <div class="sm:text-left flex-1">
+                    <h6 class="font-bold mb-4">Quick links</h6>
+                    <ul>
+                        <li class="mb-2"><a href="index.php" class="hover:underline">Home</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">New arrivals</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">Shop</a></li>
+                        <li><a href="aboutus.html" class="hover:underline">About us</a></li>
+                    </ul>
+                </div>
 
-            <!-- Categories  -->
-            <div class="sm:text-center flex-1">
-                <h6 class="font-bold mb-4">Categories</h6>
-                <ul>
-                    <li class="mb-2"><a href="#" class="hover:underline">Leather goods</a></li>
-                    <li class="mb-2"><a href="#" class="hover:underline">Fragrances</a></li>
-                    <li><a href="#" class="hover:underline">Accessories</a></li>
-                </ul>
-            </div>
+                <!-- Categories -->
+                <div class="sm:text-center flex-1">
+                    <h6 class="font-bold mb-4">Categories</h6>
+                    <ul>
+                        <li class="mb-2"><a href="#" class="hover:underline">Leather goods</a></li>
+                        <li class="mb-2"><a href="#" class="hover:underline">Fragrances</a></li>
+                        <li><a href="#" class="hover:underline">Accessories</a></li>
+                    </ul>
+                </div>
 
-            <!-- Contact Us -->
-            <div class="sm:text-right flex-1">
-                <h6 class="font-bold mb-4">Contact us</h6>
-                <p class="mb-2">+94 77 123 4567</p>
-                <p class="mb-2">+94 11 234 5678</p>
-                <p class="mb-4">auroraluxe@gmail.com</p>
-                <div class="flex space-x-4 justify-center sm:justify-end">
-                    <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs "onclick="window.open('https:www.instagram.com/louisvuitton/')"><img src="https://i.pinimg.com/474x/1e/d6/e0/1ed6e0a9e69176a5fdb7e090a1046b86.jpg" alt="instagram logo"></span>
-                    <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs">3#</span>
-                    <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs">3#</span>
+                <!-- Contact Us -->
+                <div class="sm:text-right flex-1">
+                    <h6 class="font-bold mb-4">Contact us</h6>
+                    <p class="mb-2">+94 77 123 4567</p>
+                    <p class="mb-2">+94 11 234 5678</p>
+                    <p class="mb-4">auroraluxe@gmail.com</p>
+                    <div class="flex space-x-4 justify-center sm:justify-end">
+                        <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs" onclick="window.open('https://www.instagram.com/louisvuitton/')">
+                            <img src="https://i.pinimg.com/474x/1e/d6/e0/1ed6e0a9e69176a5fdb7e090a1046b86.jpg" alt="instagram logo">
+                        </span>
+                        <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs">3#</span>
+                        <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs">3#</span>
+                    </div>
                 </div>
             </div>
+            <div class="text-center mt-10 text-gray-700 text-xs">
+                © 2024 auroraluxe All Rights Reserved.
+            </div>
         </div>
-        <div class="text-center mt-10 text-gray-700 text-xs">
-            © 2024 auroraluxe All Rights Reserved.
-        </div>
-    </div>
-</footer>
+    </footer>
 </body>
 </html>
