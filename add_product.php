@@ -13,21 +13,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = $_POST['category'];
     $subCategory = $_POST['subCategory'];
 
-    // Construct the SQL query
-    $sql = "INSERT INTO products (Name, Description, ImageUrl, Price, StockQuantity, Category, SubCategory) 
-            VALUES ('$name', '$description', '$imageUrl', '$price', '$stockQuantity', '$category', '$subCategory')";
+    // Use a prepared statement to prevent SQL injection
+    $stmt = $conn->prepare("INSERT INTO products (Name, Description, ImageUrl, Price, StockQuantity, Category, SubCategory) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssiss", $name, $description, $imageUrl, $price, $stockQuantity, $category, $subCategory);
 
     // Execute the query
-    if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute()) {
         echo "Product added successfully!";
     } else {
-        echo "Error: " . $conn->error;
+        echo "Error: " . $stmt->error;
     }
+
+    // Close the statement
+    $stmt->close();
 }
 
 // Close the database connection
 $conn->close();
 ?>
+
 
 
 

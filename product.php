@@ -23,7 +23,8 @@ if (!$product) {
 
 // Handle add to cart logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-    $userId = $_SESSION['UserId']; // Assuming UserId is stored in session
+    $userId = $_SESSION['user_id']; // Correct version
+ // Assuming UserId is stored in session
     $productId = $product['ProductId'];
     $quantity = $_POST['quantity'];
 
@@ -81,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 <a href="cart.php">
                     <img src="images/cart.png" alt="" class="w-6 h-6 hover:opacity-75">
                 </a>
-                <a href="signin.php">
+                <a href="myprofile.php">
                     <img src="images/profile icon.png" alt="" class="w-6 h-6 hover:opacity-75">
                 </a>
             </div>

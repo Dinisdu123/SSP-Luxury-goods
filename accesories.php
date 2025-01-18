@@ -31,10 +31,10 @@ $ladies = $conn->query($sql_ladies);
         <div class= "flex items-center space-x-6">
             <span class="text-4xl font-serif">Aurora luxe</span>
             <div class="flex space-x-4 items-center">
-                <a href="">
+                <a href="cart.php">
                     <img src="images/cart.png" alt="" class="w-6 h-6 ml-20 hover:opacity-75">
                 </a>
-                <a href="">
+                <a href="myprofile.php">
                     <img src="images/profile icon.png" alt="" class="w-6 h-6 hover:opacity-75">
                 </a>
             </div>

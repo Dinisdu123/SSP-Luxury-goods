@@ -1,21 +1,43 @@
 <?php
+// Start the session
 session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: signin.php");
+    exit();
+}
+
+// Get the user ID from the session
+$userId = $_SESSION['user_id'];
+
+// Include the database connection
 include 'db_connect.php';
 
-$userId = $_SESSION['UserId'];
-
-// Fetch cart items for the user
-$query = "SELECT c.CartId, p.Name, p.ImageUrl, c.Quantity, c.TotalPrice 
-          FROM cart c
-          INNER JOIN Products p ON c.ProductId = p.ProductId
-          WHERE c.UserId = ?";
-$stmt = $conn->prepare($query);
+// Fetch user's cart items from the database
+$sql = "SELECT c.CartId, c.Quantity, c.TotalPrice, p.Name, p.ImageUrl, p.Price 
+        FROM cart c 
+        JOIN products p ON c.ProductId = p.ProductId 
+        WHERE c.UserId = ?";
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 $result = $stmt->get_result();
+$cartItems = $result->fetch_all(MYSQLI_ASSOC);
 
+// Calculate the subtotal
 $subtotal = 0;
-$deliveryCharges = 0;
+if (!empty($cartItems)) {
+    foreach ($cartItems as $item) {
+        $subtotal += $item['TotalPrice'];
+    }
+}
+
+// Fixed delivery fee
+$deliveryFee = 400;
+
+// Calculate the total
+$total = $subtotal + $deliveryFee;
 ?>
 
 <!DOCTYPE html>
@@ -24,33 +46,67 @@ $deliveryCharges = 0;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Shopping Cart - Aurora Luxe</title>
+    <title>Shopping Cart</title>
 </head>
-<body class="bg-white text-black">
-    <h1 class="text-3xl font-serif text-center mt-6">Shopping Cart</h1>
+<body class="bg-gray-100 text-black">
+    <!-- Container -->
     <div class="container mx-auto mt-10">
-        <?php while ($row = $result->fetch_assoc()): ?>
-            <div class="flex items-center justify-between border-b py-4">
-                <img src="<?php echo $row['ImageUrl']; ?>" alt="Product Image" class="w-20 h-20 object-cover">
-                <div>
-                    <h2 class="text-xl"><?php echo htmlspecialchars($row['Name']); ?></h2>
-                    <p>Quantity: <?php echo $row['Quantity']; ?></p>
+        <h1 class="text-4xl font-bold mb-6">Shopping Cart</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <?php if (!empty($cartItems)): ?>
+                    <?php foreach ($cartItems as $item): ?>
+                        <div class="flex items-center justify-between border-b border-gray-300 py-4">
+                            <img src="<?php echo htmlspecialchars($item['ImageUrl']); ?>" alt="<?php echo htmlspecialchars($item['Name']); ?>" class="w-20 h-20 object-cover rounded">
+                            <div class="flex-1 px-4">
+                                <h2 class="font-semibold"><?php echo htmlspecialchars($item['Name']); ?></h2>
+                                <p class="text-sm text-gray-600">LKR <?php echo number_format($item['Price'], 2); ?></p>
+                            </div>
+                            <div>
+                                <form method="POST" action="update_cart.php" class="flex items-center space-x-2">
+                                    <input type="hidden" name="cartId" value="<?php echo $item['CartId']; ?>">
+                                    <input type="number" name="quantity" value="<?php echo $item['Quantity']; ?>" min="1" class="border p-2 rounded w-16">
+                                    <button type="submit" class="text-blue-500 hover:underline">Update</button>
+                                </form>
+                            </div>
+                            <p class="font-semibold">LKR <?php echo number_format($item['TotalPrice'], 2); ?></p>
+                            <form method="POST" action="remove_cart.php">
+                                <input type="hidden" name="cartId" value="<?php echo $item['CartId']; ?>">
+                                <button type="submit" class="text-red-500 hover:underline">Remove</button>
+                            </form>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-gray-500">Your cart is empty.</p>
+                <?php endif; ?>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="border p-6 rounded-md bg-white shadow-md">
+                <h2 class="text-2xl font-semibold mb-4">Order Summary</h2>
+                <div class="flex justify-between mb-2">
+                    <span>Subtotal</span>
+                    <span>LKR <?php echo number_format($subtotal, 2); ?></span>
                 </div>
-                <p>LKR <?php echo number_format($row['TotalPrice'], 2); ?></p>
-                <form method="POST" action="remove_from_cart.php">
-                    <input type="hidden" name="CartId" value="<?php echo $row['CartId']; ?>">
-                    <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Remove</button>
+                <div class="flex justify-between mb-2">
+                    <span>Delivery Fee</span>
+                    <span>LKR <?php echo number_format($deliveryFee, 2); ?></span>
+                </div>
+                <hr class="mb-4">
+                <div class="flex justify-between font-semibold text-lg">
+                    <span>Total</span>
+                    <span>LKR <?php echo number_format($total, 2); ?></span>
+                </div>
+
+                <!-- Checkout Form -->
+                <form method="POST" action="checkout.php">
+                    <input type="hidden" name="subtotal" value="<?php echo htmlspecialchars($subtotal); ?>">
+                    <input type="hidden" name="shipping" value="<?php echo htmlspecialchars($deliveryFee); ?>">
+                    <input type="hidden" name="total_price" value="<?php echo htmlspecialchars($total); ?>">
+                    <button type="submit" class="bg-black text-white py-2 px-6 rounded-md mt-6 w-full hover:bg-gray-800">Checkout</button>
                 </form>
             </div>
-            <?php
-                $subtotal += $row['TotalPrice'] - ($row['Quantity'] * 400);
-                $deliveryCharges += $row['Quantity'] * 400;
-            ?>
-        <?php endwhile; ?>
-        <div class="mt-6 text-right">
-            <p>Subtotal: LKR <?php echo number_format($subtotal, 2); ?></p>
-            <p>Delivery Charges: LKR <?php echo number_format($deliveryCharges, 2); ?></p>
-            <h2 class="text-2xl font-bold">Total: LKR <?php echo number_format($subtotal + $deliveryCharges, 2); ?></h2>
         </div>
     </div>
 </body>

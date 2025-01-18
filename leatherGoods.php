@@ -43,7 +43,7 @@ $wallets = $conn->query($sql_wallets);
                 <a href="">
                     <img src="images/cart.png" alt="" class="w-6 h-6 ml-20 hover:opacity-75">
                 </a>
-                <a href="signin.php">
+                <a href="myprofile.php">
                     <img src="images/profile icon.png" alt="" class="w-6 h-6 hover:opacity-75">
                 </a>
             </div>
