@@ -130,7 +130,7 @@ $ladies = $conn->query($sql_ladies);
                 <p class="mb-4">auroraluxe@gmail.com</p>
                 <div class="flex space-x-4 justify-center sm:justify-end">
                     <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs "onclick="window.open('https:www.instagram.com/louisvuitton/')"><img src="https://i.pinimg.com/474x/1e/d6/e0/1ed6e0a9e69176a5fdb7e090a1046b86.jpg" alt="instagram logo"></span>
-                    <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs">3#</span>
+                    <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs"onclick="window.open('https:www.facebookf.com/louisvuitton/')"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Facebook_logo_%28square%29.png" alt="facebook logo"></span>
                     <span class="block w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-xs">3#</span>
                 </div>
             </div>
@@ -142,3 +142,4 @@ $ladies = $conn->query($sql_ladies);
     </footer>
 </body>
 </html>
+

@@ -24,7 +24,6 @@ if (!$product) {
 // Handle add to cart logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $userId = $_SESSION['user_id']; // Correct version
- // Assuming UserId is stored in session
     $productId = $product['ProductId'];
     $quantity = $_POST['quantity'];
 
@@ -56,6 +55,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 
     // Redirect to cart page after adding
     header("Location: cart.php");
+    exit;
+}
+
+// Handle review submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
+    $userId = $_SESSION['user_id'];
+    $productId = $product['ProductId'];
+    $rating = $_POST['rating'];
+    $reviewText = $_POST['review_text'];
+
+    $insertReviewQuery = "INSERT INTO reviews (CustomerId, ProductId, Rating, ReviewText) VALUES (?, ?, ?, ?)";
+    $insertReviewStmt = $conn->prepare($insertReviewQuery);
+    $insertReviewStmt->bind_param("iiis", $userId, $productId, $rating, $reviewText);
+    $insertReviewStmt->execute();
+
+    // Redirect to the same page to display the new review
+    header("Location: " . $_SERVER['REQUEST_URI']);
     exit;
 }
 ?>
@@ -96,12 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             <div>
                 <img src="<?php echo $product['ImageUrl']; ?>" alt="<?php echo htmlspecialchars($product['Name']); ?>" class="w-full h-auto object-cover rounded">
             </div>
-
-            <!-- Product Info -->
             <div>
-                <h1 class="text-4xl font-serif mb-4"><?php echo htmlspecialchars($product['Name']); ?></h1>
-                <p class="text-2xl text-gray-700 mb-6">LKR <?php echo number_format($product['Price'], 2); ?></p>
-                <p class="text-gray-600 mb-6"><?php echo htmlspecialchars($product['Description']); ?></p>
+                <h1 class="text-3xl font-bold"><?php echo htmlspecialchars($product['Name']); ?></h1>
+                <p class="text-gray-600 text-lg mt-4">LKR <?php echo number_format($product['Price'], 2); ?></p>
                 <!-- Add to Cart Form -->
                 <form method="POST">
                     <input type="number" name="quantity" value="1" min="1" class="border p-2 rounded-md mb-4">
@@ -119,6 +132,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         <p class="text-gray-600 leading-relaxed">
             <?php echo nl2br(htmlspecialchars($product['Description'])); ?>
         </p>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="container mx-auto mt-10">
+        <h2 class="text-2xl font-semibold mb-4">Reviews</h2>
+        
+        <!-- Display Existing Reviews -->
+        <div class="space-y-4">
+            <?php
+            $reviewQuery = "SELECT r.Rating, r.ReviewText, r.ReviewDate, CONCAT(c.FirstName, ' ', c.LastName) AS CustomerName 
+            FROM reviews r 
+            JOIN customers c ON r.CustomerId = c.CustomerId 
+            WHERE r.ProductId = ?
+            ORDER BY r.ReviewDate DESC";
+
+
+            $reviewStmt = $conn->prepare($reviewQuery);
+            $reviewStmt->bind_param("i", $product['ProductId']);
+            $reviewStmt->execute();
+            $reviewResult = $reviewStmt->get_result();
+
+            if ($reviewResult->num_rows > 0) {
+                while ($review = $reviewResult->fetch_assoc()) {
+                    echo '<div class="border p-4 rounded-md">';
+                    echo '<h3 class="font-semibold">' . htmlspecialchars($review['CustomerName']) . '</h3>';
+                    echo '<p class="text-gray-600">Rating: ' . str_repeat('⭐', $review['Rating']) . '</p>';
+                    echo '<p>' . nl2br(htmlspecialchars($review['ReviewText'])) . '</p>';
+                    echo '<span class="text-sm text-gray-500">' . $review['ReviewDate'] . '</span>';
+                    echo '</div>';
+                }
+            } else {
+                echo '<p class="text-gray-600">No reviews yet. Be the first to review!</p>';
+            }
+            ?>
+        </div>
+
+        <!-- Submit a Review -->
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold mb-4">Write a Review</h3>
+                <form method="POST">
+                    <div class="mb-4">
+                        <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+                        <select name="rating" id="rating" class="border p-2 rounded-md w-full" required>
+                            <option value="1">1 - Poor</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="3">3 - Good</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="5">5 - Excellent</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="review_text" class="block text-sm font-medium text-gray-700">Review</label>
+                        <textarea name="review_text" id="review_text" rows="4" class="border p-2 rounded-md w-full" required></textarea>
+                    </div>
+                    <button type="submit" name="submit_review" class="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800">
+                        Submit Review
+                    </button>
+                </form>
+            </div>
+        <?php else: ?>
+            <p class="text-gray-600 mt-4">Please <a href="login.php" class="text-blue-500">log in</a> to write a review.</p>
+        <?php endif; ?>
     </div>
 
     <!-- Footer -->
