@@ -82,19 +82,21 @@ $totalPrice = $_POST['total_price'] ?? 0;
     <title>Checkout</title>
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto mt-10">
-        <h1 class="text-4xl font-bold mb-6">Checkout</h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-left">Checkout</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Order Details -->
-            <div class="p-6 border bg-white shadow-md">
-                <h2 class="text-2xl font-semibold mb-4">Your order details</h2>
-                <p>Sub total: LKR <?php echo number_format($subtotal, 2); ?></p>
-                <p>Shipping: LKR <?php echo number_format($shipping, 2); ?></p>
-                <p>Total: LKR <?php echo number_format($totalPrice, 2); ?></p>
+            <div class="p-6 border bg-white shadow-md rounded-md">
+                <h2 class="text-2xl font-semibold mb-4 text-center lg:text-left">Your order details</h2>
+                <div class="space-y-2 text-center lg:text-left">
+                    <p>Subtotal: <span class="font-medium">LKR <?php echo number_format($subtotal, 2); ?></span></p>
+                    <p>Shipping: <span class="font-medium">LKR <?php echo number_format($shipping, 2); ?></span></p>
+                    <p>Total: <span class="font-bold text-lg">LKR <?php echo number_format($totalPrice, 2); ?></span></p>
+                </div>
             </div>
 
             <!-- Checkout Form -->
-            <div class="p-6 border bg-white shadow-md">
+            <div class="p-6 border bg-white shadow-md rounded-md">
                 <?php if (!empty($errorMessage)): ?>
                     <p class="text-red-500 mb-4"><?php echo htmlspecialchars($errorMessage); ?></p>
                 <?php endif; ?>
@@ -103,20 +105,24 @@ $totalPrice = $_POST['total_price'] ?? 0;
                     <input type="hidden" name="shipping" value="<?php echo htmlspecialchars($shipping); ?>">
                     <input type="hidden" name="total_price" value="<?php echo htmlspecialchars($totalPrice); ?>">
 
-                    <h2 class="text-2xl font-semibold mb-4">Contact Information</h2>
-                    <input type="text" name="first_name" placeholder="First name" required class="border p-2 rounded-md w-full mb-4">
-                    <input type="text" name="last_name" placeholder="Last name" required class="border p-2 rounded-md w-full mb-4">
-
-                    <h2 class="text-2xl font-semibold mb-4">Address</h2>
-                    <input type="text" name="address_line_1" placeholder="Address line 1" required class="border p-2 rounded-md w-full mb-4">
-                    <input type="text" name="address_line_2" placeholder="Address line 2" class="border p-2 rounded-md w-full mb-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" name="city" placeholder="City" required class="border p-2 rounded-md w-full">
-                        <input type="text" name="postal_code" placeholder="Postal code" required class="border p-2 rounded-md w-full">
+                    <h2 class="text-2xl font-semibold mb-4 text-center lg:text-left">Contact Information</h2>
+                    <div class="space-y-4">
+                        <input type="text" name="first_name" placeholder="First name" required class="border p-2 rounded-md w-full">
+                        <input type="text" name="last_name" placeholder="Last name" required class="border p-2 rounded-md w-full">
                     </div>
-                    <input type="text" name="contact_number" placeholder="Contact Number" required class="border p-2 rounded-md w-full mt-4 mb-6">
 
-                    <button type="submit" class="bg-black text-white py-2 px-6 rounded-md w-full hover:bg-gray-800">Place Order</button>
+                    <h2 class="text-2xl font-semibold mt-6 mb-4 text-center lg:text-left">Address</h2>
+                    <div class="space-y-4">
+                        <input type="text" name="address_line_1" placeholder="Address line 1" required class="border p-2 rounded-md w-full">
+                        <input type="text" name="address_line_2" placeholder="Address line 2" class="border p-2 rounded-md w-full">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input type="text" name="city" placeholder="City" required class="border p-2 rounded-md w-full">
+                            <input type="text" name="postal_code" placeholder="Postal code" required class="border p-2 rounded-md w-full">
+                        </div>
+                        <input type="text" name="contact_number" placeholder="Contact Number" required class="border p-2 rounded-md w-full">
+                    </div>
+
+                    <button type="submit" class="bg-black text-white py-2 px-6 rounded-md mt-6 w-full hover:bg-gray-800">Place Order</button>
                 </form>
             </div>
         </div>

@@ -49,52 +49,54 @@ $result = $conn->query($sql);
             </div>
         <?php endif; ?>
 
-        <table class="w-full border-collapse border border-gray-300">
-            <thead>
-                <tr>
-                    <th class="border border-gray-300 p-2 text-left">Order ID</th>
-                    <th class="border border-gray-300 p-2 text-left">Date</th>
-                    <th class="border border-gray-300 p-2 text-left">Product Name</th>
-                    <th class="border border-gray-300 p-2 text-left">Address</th>
-                    <th class="border border-gray-300 p-2 text-left">Phone Number</th>
-                    <th class="border border-gray-300 p-2 text-left">Status</th>
-                    <th class="border border-gray-300 p-2 text-left">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr class='odd:bg-white even:bg-gray-100'>";
-                        echo "<td class='border border-gray-300 p-2'>" . $row['OrderId'] . "</td>";
-                        echo "<td class='border border-gray-300 p-2'>" . $row['OrderedDate'] . "</td>";
-                        echo "<td class='border border-gray-300 p-2'>" . $row['ProductName'] . "</td>";
-                        echo "<td class='border border-gray-300 p-2'>" . $row['DeliveryAddress'] . "</td>";
-                        echo "<td class='border border-gray-300 p-2'>" . $row['PhoneNumber'] . "</td>";
-                        echo "<td class='border border-gray-300 p-2'>";
-                        echo "<form method='POST' action=''>
-                                <input type='hidden' name='orderId' value='" . $row['OrderId'] . "'>
-                                <select name='status' class='border border-gray-300 rounded p-1'>
-                                    <option value='Pending'" . ($row['OrderStatus'] == 'Pending' ? ' selected' : '') . ">Pending</option>
-                                    <option value='Processing'" . ($row['OrderStatus'] == 'Processing' ? ' selected' : '') . ">Processing</option>
-                                    <option value='Shipped'" . ($row['OrderStatus'] == 'Shipped' ? ' selected' : '') . ">Shipped</option>
-                                    <option value='Delivered'" . ($row['OrderStatus'] == 'Delivered' ? ' selected' : '') . ">Delivered</option>
-                                    <option value='Cancelled'" . ($row['OrderStatus'] == 'Cancelled' ? ' selected' : '') . ">Cancelled</option>
-                                </select>
-                              </td>";
-                        echo "<td class='border border-gray-300 p-2 text-center'>
-                                <button type='submit' class='bg-blue-500 text-white px-3 py-1 rounded'>Update</button>
-                              </form>
-                              </td>";
-                        echo "</tr>";
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-300 p-2 text-left">Order ID</th>
+                        <th class="border border-gray-300 p-2 text-left">Date</th>
+                        <th class="border border-gray-300 p-2 text-left">Product Name</th>
+                        <th class="border border-gray-300 p-2 text-left">Address</th>
+                        <th class="border border-gray-300 p-2 text-left">Phone Number</th>
+                        <th class="border border-gray-300 p-2 text-left">Status</th>
+                        <th class="border border-gray-300 p-2 text-left">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr class='odd:bg-white even:bg-gray-100'>";
+                            echo "<td class='border border-gray-300 p-2'>" . $row['OrderId'] . "</td>";
+                            echo "<td class='border border-gray-300 p-2'>" . $row['OrderedDate'] . "</td>";
+                            echo "<td class='border border-gray-300 p-2'>" . $row['ProductName'] . "</td>";
+                            echo "<td class='border border-gray-300 p-2'>" . $row['DeliveryAddress'] . "</td>";
+                            echo "<td class='border border-gray-300 p-2'>" . $row['PhoneNumber'] . "</td>";
+                            echo "<td class='border border-gray-300 p-2'>";
+                            echo "<form method='POST' action=''>
+                                    <input type='hidden' name='orderId' value='" . $row['OrderId'] . "'>
+                                    <select name='status' class='border border-gray-300 rounded p-2 w-full sm:w-auto'>
+                                        <option value='Pending'" . ($row['OrderStatus'] == 'Pending' ? ' selected' : '') . ">Pending</option>
+                                        <option value='Processing'" . ($row['OrderStatus'] == 'Processing' ? ' selected' : '') . ">Processing</option>
+                                        <option value='Shipped'" . ($row['OrderStatus'] == 'Shipped' ? ' selected' : '') . ">Shipped</option>
+                                        <option value='Delivered'" . ($row['OrderStatus'] == 'Delivered' ? ' selected' : '') . ">Delivered</option>
+                                        <option value='Cancelled'" . ($row['OrderStatus'] == 'Cancelled' ? ' selected' : '') . ">Cancelled</option>
+                                    </select>
+                                  </td>";
+                            echo "<td class='border border-gray-300 p-2 text-center'>
+                                    <button type='submit' class='bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600'>Update</button>
+                                  </form>
+                                  </td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='7' class='border border-gray-300 p-2 text-center'>No orders found</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='7' class='border border-gray-300 p-2 text-center'>No orders found</td></tr>";
-                }
-                $conn->close();
-                ?>
-            </tbody>
-        </table>
+                    $conn->close();
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

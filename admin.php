@@ -29,29 +29,40 @@ $allProduct = $conn->query($product);
 <body class="bg-gray-100">
     <!-- Navbar -->
     <nav class="bg-gray-800 text-white py-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="text-lg font-bold">E-commerce Admin</div>
-            <div>
-                <a href="admin.php" class="mx-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded">Products</a>
-                <a href="orders.php" class="mx-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded">Orders</a>
-                <a href="add_product.php" class="mx-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded">Add Product</a>
-            </div>
+    <div class="container mx-auto flex flex-wrap justify-between items-center">
+        <!-- Logo -->
+        <div class="text-lg font-bold mb-4 sm:mb-0 w-full sm:w-auto text-center sm:text-left">
+            E-commerce Admin
         </div>
-    </nav>
+        
+        <!-- Navigation Links -->
+        <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto text-center sm:justify-end">
+            <a href="admin.php" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded w-full sm:w-auto">
+                Products
+            </a>
+            <a href="orders.php" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded w-full sm:w-auto">
+                Orders
+            </a>
+            <a href="add_product.php" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded w-full sm:w-auto">
+                Add Product
+            </a>
+        </div>
+    </div>
+</nav>
+
 
     <!-- Main Content -->
     <div class="container mx-auto my-8">
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <?php
             if ($allProduct->num_rows > 0) {
                 while ($row = $allProduct->fetch_assoc()) {
                     echo '<div class="bg-white shadow p-4 rounded">';
                     echo '<img src="' . $row['ImageUrl'] . '" alt="Product" class="h-40 w-full object-cover mb-4">';
                     echo '<div class="text-center font-bold mb-2">' . $row['Name'] . '</div>';
-                    echo '<div class="flex justify-between items-center">';
-                    // Fixed Update button
-                    echo '<a href="update.php?id=' . $row['ProductId'] . '" class="bg-blue-500 text-white px-3 py-1 rounded">Update</a>';
-                    echo '<a href="admin.php?delete_id=' . $row['ProductId'] . '" class="bg-red-500 text-white px-3 py-1 rounded" onclick="return confirm(\'Are you sure you want to delete this product?\')">Remove</a>';
+                    echo '<div class="flex flex-col sm:flex-row justify-center items-center gap-2 mt-4">';
+                    echo '<a href="update.php?id=' . $row['ProductId'] . '" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 w-full sm:w-auto text-center">Update</a>';
+                    echo '<a href="admin.php?delete_id=' . $row['ProductId'] . '" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto text-center" onclick="return confirm(\'Are you sure you want to delete this product?\')">Remove</a>';
                     echo '</div>';
                     echo '</div>';
                 }

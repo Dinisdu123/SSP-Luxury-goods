@@ -50,46 +50,46 @@ $total = $subtotal + $deliveryFee;
 </head>
 <body class="bg-gray-100 text-black">
     <!-- Container -->
-    <div class="container mx-auto mt-10">
-        <h1 class="text-4xl font-bold mb-6">Shopping Cart</h1>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-left">Shopping Cart</h1>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- Cart Items -->
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 space-y-4">
                 <?php if (!empty($cartItems)): ?>
                     <?php foreach ($cartItems as $item): ?>
-                        <div class="flex items-center justify-between border-b border-gray-300 py-4">
+                        <div class="flex flex-col sm:flex-row items-center justify-between border-b border-gray-300 py-4 space-y-4 sm:space-y-0">
                             <img src="<?php echo htmlspecialchars($item['ImageUrl']); ?>" alt="<?php echo htmlspecialchars($item['Name']); ?>" class="w-20 h-20 object-cover rounded">
-                            <div class="flex-1 px-4">
+                            <div class="flex-1 sm:px-4 text-center sm:text-left">
                                 <h2 class="font-semibold"><?php echo htmlspecialchars($item['Name']); ?></h2>
                                 <p class="text-sm text-gray-600">LKR <?php echo number_format($item['Price'], 2); ?></p>
                             </div>
-                            <div>
+                            <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
                                 <form method="POST" action="update_cart.php" class="flex items-center space-x-2">
                                     <input type="hidden" name="cartId" value="<?php echo $item['CartId']; ?>">
-                                    <input type="number" name="quantity" value="<?php echo $item['Quantity']; ?>" min="1" class="border p-2 rounded w-16">
+                                    <input type="number" name="quantity" value="<?php echo $item['Quantity']; ?>" min="1" class="border p-2 rounded w-16 text-center">
                                     <button type="submit" class="text-blue-500 hover:underline">Update</button>
                                 </form>
+                                <form method="POST" action="remove_cart.php">
+                                    <input type="hidden" name="cartId" value="<?php echo $item['CartId']; ?>">
+                                    <button type="submit" class="text-red-500 hover:underline">Remove</button>
+                                </form>
                             </div>
-                            <p class="font-semibold">LKR <?php echo number_format($item['TotalPrice'], 2); ?></p>
-                            <form method="POST" action="remove_cart.php">
-                                <input type="hidden" name="cartId" value="<?php echo $item['CartId']; ?>">
-                                <button type="submit" class="text-red-500 hover:underline">Remove</button>
-                            </form>
+                            <p class="font-semibold text-center sm:text-left">LKR <?php echo number_format($item['TotalPrice'], 2); ?></p>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p class="text-gray-500">Your cart is empty.</p>
+                    <p class="text-gray-500 text-center">Your cart is empty.</p>
                 <?php endif; ?>
             </div>
 
             <!-- Order Summary -->
             <div class="border p-6 rounded-md bg-white shadow-md">
-                <h2 class="text-2xl font-semibold mb-4">Order Summary</h2>
-                <div class="flex justify-between mb-2">
+                <h2 class="text-2xl font-semibold mb-4 text-center sm:text-left">Order Summary</h2>
+                <div class="flex justify-between mb-2 text-sm sm:text-base">
                     <span>Subtotal</span>
                     <span>LKR <?php echo number_format($subtotal, 2); ?></span>
                 </div>
-                <div class="flex justify-between mb-2">
+                <div class="flex justify-between mb-2 text-sm sm:text-base">
                     <span>Delivery Fee</span>
                     <span>LKR <?php echo number_format($deliveryFee, 2); ?></span>
                 </div>

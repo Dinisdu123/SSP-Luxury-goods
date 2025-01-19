@@ -75,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,57 +85,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
 </head>
 <body class="bg-white text-black">
     <!-- Navigation Bar -->
-    <nav class="flex items-center justify-between p-4 border-b border-black">
-        <div class="flex space-x-8">
+    <nav class="flex flex-wrap items-center justify-between p-4 border-b border-black space-y-4 sm:space-y-0">
+        <div class="flex flex-wrap justify-center space-x-4 lg:space-x-8">
             <a href="leathergoods.php" class="hover:text-gray-500">Leather Goods</a>
             <a href="Fragraance.php" class="hover:text-gray-500">Fragrances</a>
             <a href="accesories.php" class="hover:text-gray-500">Accessories</a>
         </div>
-        <div class="flex items-center space-x-6">
-            <span class="text-4xl font-serif">Aurora Luxe</span>
+        <div class="flex flex-col items-center sm:flex-row sm:items-center space-y-4 sm:space-y-0 space-x-0 sm:space-x-6">
+            <span class="text-2xl sm:text-4xl font-serif">Aurora Luxe</span>
             <div class="flex space-x-4 items-center">
                 <a href="cart.php">
-                    <img src="images/cart.png" alt="" class="w-6 h-6 hover:opacity-75">
+                    <img src="images/cart.png" alt="Cart" class="w-6 h-6 hover:opacity-75">
                 </a>
                 <a href="myprofile.php">
-                    <img src="images/profile icon.png" alt="" class="w-6 h-6 hover:opacity-75">
+                    <img src="images/profile icon.png" alt="Profile" class="w-6 h-6 hover:opacity-75">
                 </a>
             </div>
         </div>
     </nav>
 
     <!-- Product Details Section -->
-    <div class="container mx-auto mt-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div class="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             <!-- Product Image -->
-            <div>
-                <img src="<?php echo $product['ImageUrl']; ?>" alt="<?php echo htmlspecialchars($product['Name']); ?>" class="w-full h-auto object-cover rounded">
+            <div class="flex justify-center">
+                <img src="<?php echo $product['ImageUrl']; ?>" alt="<?php echo htmlspecialchars($product['Name']); ?>" class="w-full max-w-xs md:max-w-md object-cover rounded shadow-md">
             </div>
+            <!-- Product Details -->
             <div>
-                <h1 class="text-3xl font-bold"><?php echo htmlspecialchars($product['Name']); ?></h1>
+                <h1 class="text-2xl sm:text-3xl font-bold"><?php echo htmlspecialchars($product['Name']); ?></h1>
                 <p class="text-gray-600 text-lg mt-4">LKR <?php echo number_format($product['Price'], 2); ?></p>
                 <!-- Add to Cart Form -->
-                <form method="POST">
-                    <input type="number" name="quantity" value="1" min="1" class="border p-2 rounded-md mb-4">
-                    <button type="submit" name="add_to_cart" class="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800">
-                        Add to Cart
-                    </button>
+                <form method="POST" class="mt-6">
+                    <div class="flex items-center space-x-4">
+                        <input type="number" name="quantity" value="1" min="1" class="border p-2 rounded-md w-20 text-center">
+                        <button type="submit" name="add_to_cart" class="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800">
+                            Add to Cart
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
     <!-- Product Description Section -->
-    <div class="container mx-auto mt-10">
-        <h2 class="text-2xl font-semibold mb-4">Product Description</h2>
+    <div class="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Product Description</h2>
         <p class="text-gray-600 leading-relaxed">
             <?php echo nl2br(htmlspecialchars($product['Description'])); ?>
         </p>
     </div>
 
     <!-- Reviews Section -->
-    <div class="container mx-auto mt-10">
-        <h2 class="text-2xl font-semibold mb-4">Reviews</h2>
+    <div class="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Reviews</h2>
         
         <!-- Display Existing Reviews -->
         <div class="space-y-4">
@@ -147,7 +149,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
             WHERE r.ProductId = ?
             ORDER BY r.ReviewDate DESC";
 
-
             $reviewStmt = $conn->prepare($reviewQuery);
             $reviewStmt->bind_param("i", $product['ProductId']);
             $reviewStmt->execute();
@@ -155,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
 
             if ($reviewResult->num_rows > 0) {
                 while ($review = $reviewResult->fetch_assoc()) {
-                    echo '<div class="border p-4 rounded-md">';
+                    echo '<div class="border p-4 rounded-md bg-gray-50">';
                     echo '<h3 class="font-semibold">' . htmlspecialchars($review['CustomerName']) . '</h3>';
                     echo '<p class="text-gray-600">Rating: ' . str_repeat('⭐', $review['Rating']) . '</p>';
                     echo '<p>' . nl2br(htmlspecialchars($review['ReviewText'])) . '</p>';
@@ -171,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
         <!-- Submit a Review -->
         <?php if (isset($_SESSION['user_id'])): ?>
             <div class="mt-8">
-                <h3 class="text-xl font-semibold mb-4">Write a Review</h3>
+                <h3 class="text-lg sm:text-xl font-semibold mb-4">Write a Review</h3>
                 <form method="POST">
                     <div class="mb-4">
                         <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>

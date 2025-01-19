@@ -48,9 +48,9 @@ $stmt->close();
     <!-- Navbar -->
     <header class="bg-gray-800 text-white">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
+            <div class="flex flex-wrap justify-between items-center py-4">
                 <h1 class="text-xl font-bold">Name of the Website</h1>
-                <nav class="flex space-x-4">
+                <nav class="flex flex-wrap gap-4">
                     <a href="leatherGoods.php" class="hover:text-gray-400">Leather Goods</a>
                     <a href="fragrances.php" class="hover:text-gray-400">Fragrances</a>
                     <a href="accessories.php" class="hover:text-gray-400">Accessories</a>
@@ -65,7 +65,7 @@ $stmt->close();
     <!-- Main Profile Section -->
     <main class="max-w-6xl mx-auto px-4 mt-6">
         <div class="bg-white shadow-md rounded-lg p-6">
-            <div class="flex items-center space-x-6">
+            <div class="flex flex-wrap items-center space-x-6">
                 <!-- Profile Image -->
                 <div>
                     <img src="https://static.vecteezy.com/system/resources/thumbnails/001/840/612/small_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg" alt="Profile" class="h-20 w-20 rounded-full border">
@@ -82,38 +82,43 @@ $stmt->close();
 
             <!-- Order History -->
             <section class="mt-6">
-                <h3 class="text-xl font-bold mb-4">Order History</h3>
-                <?php if (!empty($orderHistory)) { ?>
-                    <div class="bg-gray-50 p-4 rounded-md shadow-sm">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="border-b">
-                                    <th class="py-2">Order ID</th>
-                                    <th class="py-2">Ordered Date</th>
-                                    <th class="py-2">Delivery Address</th>
-                                    <th class="py-2">Order Status</th>
-                                    <th class="py-2">Total Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($orderHistory as $order) { ?>
-                                    <tr class="border-b">
-                                        <td class="py-2"><?php echo $order['OrderId']; ?></td>
-                                        <td class="py-2"><?php echo date("d M Y, H:i", strtotime($order['OrderedDate'])); ?></td>
-                                        <td class="py-2"><?php echo $order['DeliveryAddress']; ?></td>
-                                        <td class="py-2"><?php echo $order['OrderStatus']; ?></td>
-                                        <td class="py-2">$<?php echo number_format($order['TotalPrice'], 2); ?></td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+    <h3 class="text-xl font-bold mb-4">Order History</h3>
+    <?php if (!empty($orderHistory)) { ?>
+        <div class="bg-gray-50 p-4 rounded-md shadow-sm">
+            <!-- Loop through orders -->
+            <?php foreach ($orderHistory as $order) { ?>
+                <div class="border border-gray-300 rounded-md mb-4 p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <!-- Order Details as Rows -->
+                    <div class="flex flex-col mb-4 sm:mb-0">
+                        <span class="font-semibold">Order ID:</span>
+                        <span><?php echo $order['OrderId']; ?></span>
                     </div>
-                <?php } else { ?>
-                    <div class="bg-gray-50 p-4 rounded-md shadow-sm">
-                        <p class="text-gray-500">You haven't placed any orders yet.</p>
+                    <div class="flex flex-col mb-4 sm:mb-0">
+                        <span class="font-semibold">Ordered Date:</span>
+                        <span><?php echo date("d M Y, H:i", strtotime($order['OrderedDate'])); ?></span>
                     </div>
-                <?php } ?>
-            </section>
+                    <div class="flex flex-col mb-4 sm:mb-0">
+                        <span class="font-semibold">Delivery Address:</span>
+                        <span><?php echo $order['DeliveryAddress']; ?></span>
+                    </div>
+                    <div class="flex flex-col mb-4 sm:mb-0">
+                        <span class="font-semibold">Order Status:</span>
+                        <span><?php echo $order['OrderStatus']; ?></span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-semibold">Total Price:</span>
+                        <span>$<?php echo number_format($order['TotalPrice'], 2); ?></span>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    <?php } else { ?>
+        <div class="bg-gray-50 p-4 rounded-md shadow-sm">
+            <p class="text-gray-500">You haven't placed any orders yet.</p>
+        </div>
+    <?php } ?>
+</section>
+
         </div>
     </main>
 </body>
